@@ -8,7 +8,7 @@ LICENSE file in the root directory of this source tree.
 import argparse
 import numpy as np
 import torch as th
-
+from pywavefront import Wavefront
 from utils.renderer import Renderer
 from utils.helpers import smooth_geom, load_mask, get_template_verts, load_audio, audio_chunking
 from models.vertex_unet import VertexUnet
@@ -39,6 +39,32 @@ parser.add_argument("--output",
 args = parser.parse_args()
 
 """
+merging obj with mtl file 
+"""
+def merge_mtl_with_obj(mtl_path, obj_path):
+    # Load the OBJ file
+    obj = Wavefront(obj_path)
+
+    # Load the MTL file
+    obj.parse_mtl(mtl_path)
+
+    # Merge the materials from MTL into OBJ
+    obj.process_materials()
+
+    # Save the merged OBJ file
+    obj.save(obj_path.replace('.obj', '_merged.obj'))
+
+# Specify the paths to your MTL and OBJ files
+mtl_file = 'assets/face_template.mtl'
+obj_file = 'assets/face_template.obj'
+
+# Call the function to merge the files
+merge_mtl_with_obj(mtl_file, obj_file)
+
+
+
+
+"""
 load assets
 """
 print("load assets...")
@@ -49,7 +75,7 @@ stddev = th.from_numpy(np.load("assets/face_std.npy"))
 forehead_mask = th.from_numpy(load_mask("assets/forehead_mask.txt", dtype=np.float32)).cuda()
 neck_mask = th.from_numpy(load_mask("assets/neck_mask.txt", dtype=np.float32)).cuda()
 
-renderer = Renderer("assets/face_template.obj")
+renderer = Renderer("assets/face_template_merged.obj")
 
 """
 load models
