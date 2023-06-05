@@ -1,6 +1,6 @@
 # Blender 3.5.1
 # www.blender.org
-mtllib assets/face_template.mtl
+mtllib face_template.mtl
 o l=oldface_template
 v -59.489101 -15.641109 -60.400398
 v -36.660599 -59.660400 0.311637

@@ -50,8 +50,8 @@ mean = th.from_numpy(np.load("assets/face_mean.npy"))
 stddev = th.from_numpy(np.load("assets/face_std.npy"))
 forehead_mask = th.from_numpy(load_mask("assets/forehead_mask.txt", dtype=np.float32)).cuda()
 neck_mask = th.from_numpy(load_mask("assets/neck_mask.txt", dtype=np.float32)).cuda()
-
-renderer = Renderer("assets/face_template.obj")
+objfile=Wavefront("assets/face_template.obj")
+renderer = Renderer(objfile)
 
 """
 load models
